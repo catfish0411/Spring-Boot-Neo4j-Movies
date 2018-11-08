@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.spark.SparkConf;
+import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.mllib.classification.NaiveBayes;
@@ -56,7 +57,7 @@ public class ModelProcess {
 	/**
 	 * 指定问题question及字典的txt模板所在的根目录
 	 */
-    String rootDirPath = "D:/HanLP/data";
+    String rootDirPath = "D:/HanLP/data/";
     
     /**
      * 分类模板索引
@@ -82,6 +83,7 @@ public class ModelProcess {
 		/**
 		 * 打印问句
 		 */
+		System.out.println("\n\n");
 		System.out.println("原始句子："+queryString);
 		System.out.println("========HanLP开始分词========");
 		
@@ -125,7 +127,7 @@ public class ModelProcess {
 			String word = term.word;
 			String termStr = term.toString();
 			System.out.println(termStr);
-			if (termStr.contains("nm")) {        //nm 电影名
+			if (termStr.contains("nm") || termStr.contains("nz")) {        //nm 电影名
 				abstractQuery += "nm ";
 				abstractMap.put("nm", word);
 			} else if (termStr.contains("nr") && nrCount == 0) { //nr 人名
@@ -480,7 +482,7 @@ public class ModelProcess {
 			 */
 			JavaRDD<LabeledPoint> trainingRDD = sc.parallelize(train_list);
 			NaiveBayesModel nb_model = NaiveBayes.train(trainingRDD.rdd());
-			
+//			nb_model.save(sc,"./nb_model.bin");
 			/**
 			 * 记得关闭资源
 			 */
@@ -549,5 +551,6 @@ public class ModelProcess {
 
 	public static void main(String[] agrs) throws Exception {
 		System.out.println("Hello World !");
+//		loadClassifierModel();
 	}
 }
