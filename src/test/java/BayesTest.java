@@ -96,7 +96,7 @@ public class BayesTest {
         /**
          * 计算测试目标向量与训练样本数据集里面对应的各个分类标签匹配的概率结果
          */
-        System.out.println(nb_model.predictProbabilities(vTest)); 
+        System.out.println("男女的概率为分别为：" +nb_model.predictProbabilities(vTest));
         if(modelIndex == 1){
         	System.out.println("答案：贝叶斯分类器推断这个人的性别是男性");
         }else if(modelIndex == 2){

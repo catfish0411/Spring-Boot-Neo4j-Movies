@@ -46,6 +46,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Override
 	public String answer(String question) throws Exception {
+		System.out.println("===>"+question);
 
 		ModelProcess queryProcess = new ModelProcess(rootDictPath);
 
