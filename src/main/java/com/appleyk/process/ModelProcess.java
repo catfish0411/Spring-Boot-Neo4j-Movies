@@ -25,6 +25,7 @@ import org.apache.spark.mllib.regression.LabeledPoint;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Spark贝叶斯分类器 + HanLP分词器 + 实现问题语句的抽象+模板匹配+关键性语句还原
@@ -33,32 +34,32 @@ import com.hankcs.hanlp.seg.common.Term;
  */
 public class ModelProcess {
 
-	
+	/**
+	 * 指定问题question及字典的txt模板所在的根目录
+	 */
+	@Value("${rootDirPath}")
+	private String rootDirPath;
+
 	/**
 	 * 分类标签号和问句模板对应表
 	 */
-	Map<Double, String> questionsPattern; 
-	
+	Map<Double, String> questionsPattern;
+
 	/**
 	 * Spark贝叶斯分类器
 	 */
 	NaiveBayesModel nbModel;
-	
+
 	/**
 	 * 词语和下标的对应表   == 词汇表
 	 */
-	Map<String, Integer> vocabulary; 
-	
+	Map<String, Integer> vocabulary;
+
 	/**
 	 * 关键字与其词性的map键值对集合 == 句子抽象
 	 */
 	Map<String, String> abstractMap;
-	
-	/**
-	 * 指定问题question及字典的txt模板所在的根目录
-	 */
-    String rootDirPath = "D:/HanLP/data/";
-    
+
     /**
      * 分类模板索引
      */
@@ -72,7 +73,7 @@ public class ModelProcess {
 	
 	
 	public ModelProcess(String rootDirPath) throws Exception{
-		this.rootDirPath = rootDirPath+'/';
+		this.rootDirPath = rootDirPath +System.getProperty("file.separator");
 		questionsPattern = loadQuestionsPattern();
 		vocabulary = loadVocabulary();
 		nbModel = loadClassifierModel();
